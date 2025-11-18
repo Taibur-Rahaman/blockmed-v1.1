@@ -17,6 +17,7 @@ const AddPrescription = ({ account }) => {
   const [txHash, setTxHash] = useState('')
   const [prescriptionId, setPrescriptionId] = useState(null)
   const [qrValue, setQrValue] = useState('')
+  const qrRef = React.useRef(null)
   const [error, setError] = useState('')
 
   const handleInputChange = (e) => {
@@ -89,10 +90,15 @@ const AddPrescription = ({ account }) => {
 
       // Get prescription ID from the event or contract
       const currentCount = await contract.prescriptionCount()
-      setPrescriptionId(currentCount.toString())
+      const idString = currentCount.toString()
+      setPrescriptionId(idString)
 
-      // Generate QR code value
-      const qrData = `Prescription: ${formData.patientHash} | IPFS: ${formData.ipfsHash}`
+      // Generate QR code value (include prescription ID for verification)
+      const qrData = JSON.stringify({
+        prescriptionId: idString,
+        patientHash: formData.patientHash,
+        ipfsHash: formData.ipfsHash
+      })
       setQrValue(qrData)
 
       alert('✅ Transaction Successful!\n\nYour prescription has been saved to the blockchain.')
@@ -230,12 +236,14 @@ const AddPrescription = ({ account }) => {
           <div className="mt-20">
             <h3 className="text-center">📱 Prescription QR Code</h3>
             <div className="qr-container">
-              <QRCodeSVG 
-                value={qrValue} 
-                size={180}
-                level="H"
-                includeMargin={true}
-              />
+              <div ref={qrRef}>
+                <QRCodeSVG 
+                  value={qrValue} 
+                  size={180}
+                  level="H"
+                  includeMargin={true}
+                />
+              </div>
             </div>
             <p className="text-center" style={{ color: '#6b7280', fontSize: '14px', marginTop: '10px' }}>
               Scan this QR code to view prescription details
@@ -249,6 +257,46 @@ const AddPrescription = ({ account }) => {
               wordBreak: 'break-all'
             }}>
               {qrValue}
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px', marginTop: '12px' }}>
+              <button
+                className="btn-primary"
+                onClick={() => {
+                  try {
+                    const svg = qrRef.current.querySelector('svg')
+                    const serializer = new XMLSerializer()
+                    const svgStr = serializer.serializeToString(svg)
+                    const blob = new Blob([svgStr], { type: 'image/svg+xml;charset=utf-8' })
+                    const url = URL.createObjectURL(blob)
+                    const a = document.createElement('a')
+                    a.href = url
+                    a.download = `prescription_${prescriptionId || 'qr'}.svg`
+                    document.body.appendChild(a)
+                    a.click()
+                    a.remove()
+                    URL.revokeObjectURL(url)
+                  } catch (e) {
+                    alert('Failed to download QR')
+                  }
+                }}
+              >
+                ⬇️ Download QR (SVG)
+              </button>
+
+              <button
+                className="btn-secondary"
+                onClick={async () => {
+                  try {
+                    await navigator.clipboard.writeText(qrValue)
+                    alert('QR data copied to clipboard')
+                  } catch (e) {
+                    alert('Failed to copy QR data')
+                  }
+                }}
+              >
+                📋 Copy QR Data
+              </button>
             </div>
           </div>
         )}

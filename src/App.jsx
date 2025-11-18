@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import MetaMaskConnect from './components/MetaMaskConnect'
 import Dashboard from './pages/Dashboard'
 import AddPrescription from './pages/AddPrescription'
+import PharmacyVerification from './pages/PharmacyVerification'
+import PatientDashboard from './pages/PatientDashboard'
+import DoctorManagement from './pages/DoctorManagement'
 
 function App() {
   const [account, setAccount] = useState(null)
@@ -24,6 +27,9 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard account={account} setAccount={setAccount} />} />
             <Route path="/add-prescription" element={<AddPrescription account={account} />} />
+            <Route path="/pharmacy" element={<PharmacyVerification account={account} />} />
+            <Route path="/patient" element={<PatientDashboard />} />
+            <Route path="/doctor" element={<DoctorManagement account={account} />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         )}

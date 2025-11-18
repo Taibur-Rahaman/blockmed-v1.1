@@ -12,6 +12,18 @@ const Dashboard = ({ account, setAccount }) => {
     navigate('/add-prescription')
   }
 
+  const handlePharmacyPortal = () => {
+    navigate('/pharmacy')
+  }
+
+  const handlePatientPortal = () => {
+    navigate('/patient')
+  }
+
+  const handleDoctorManagement = () => {
+    navigate('/doctor')
+  }
+
   return (
     <div className="container" style={{ paddingTop: '40px' }}>
       {/* Header */}
@@ -64,6 +76,18 @@ const Dashboard = ({ account, setAccount }) => {
         >
           ➕ Create New Prescription
         </button>
+        <div style={{ height: '12px' }} />
+        <button 
+          className="btn-secondary" 
+          onClick={handlePharmacyPortal}
+          style={{ fontSize: '16px', padding: '12px 24px', marginTop: '12px' }}
+        >
+          🏪 Pharmacy Verification Portal
+        </button>
+  <div style={{ height: '12px' }} />
+  <button className="btn-primary" onClick={handlePatientPortal} style={{ fontSize: '16px', padding: '12px 24px' }}>👤 Patient Portal</button>
+  <div style={{ height: '12px' }} />
+  <button className="btn-secondary" onClick={handleDoctorManagement} style={{ fontSize: '16px', padding: '12px 24px' }}>🧑‍⚕️ Doctor Management</button>
       </div>
 
       {/* Features Info */}
