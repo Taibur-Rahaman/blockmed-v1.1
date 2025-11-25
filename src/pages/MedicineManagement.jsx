@@ -8,9 +8,24 @@ export default function MedicineManagement(){
   const [editing, setEditing] = useState(null)
 
   useEffect(()=>{
-    // load initial data from local JSON (could be replaced with API)
+    // load initial data from localStorage (fallback to bundled JSON)
+    try{
+      const raw = localStorage.getItem('medicines')
+      if(raw) {
+        const parsed = JSON.parse(raw)
+        if(Array.isArray(parsed)) {
+          setList(parsed)
+          return
+        }
+      }
+    }catch(e){ /* ignore, fallback below */ }
     setList(medicinesData)
   }, [])
+
+  // persist list to localStorage when it changes
+  useEffect(()=>{
+    try{ localStorage.setItem('medicines', JSON.stringify(list)) }catch(e){}
+  }, [list])
 
   const filtered = list.filter(m => (m.name+' '+(m.generic||'')+' '+(m.brand||'')).toLowerCase().includes(query.toLowerCase()))
 

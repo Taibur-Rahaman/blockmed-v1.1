@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import medicinesList from '../data/medicines.json'
+import staticMedicines from '../data/medicines.json'
 
 export default function MedicineSearch({ onAdd }){
   const [query, setQuery] = useState('')
@@ -15,6 +15,15 @@ export default function MedicineSearch({ onAdd }){
       return
     }
     const q = query.toLowerCase()
+    let medicinesList = staticMedicines
+    try{
+      const raw = localStorage.getItem('medicines')
+      if(raw) {
+        const parsed = JSON.parse(raw)
+        if(Array.isArray(parsed)) medicinesList = parsed
+      }
+    }catch(e){ /* ignore and use static list */ }
+
     const filtered = medicinesList.filter(m => (m.name + ' ' + (m.generic||'') + ' ' + (m.brand||'')).toLowerCase().includes(q)).slice(0,10)
     setResults(filtered)
   }, [query])
