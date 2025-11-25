@@ -1,0 +1,7 @@
+[
+  { "name": "Paracetamol", "generic": "Paracetamol", "brand": "Aceta", "manufacturer": "ACME Pharma", "form": "Tablet", "strength": "500mg" },
+  { "name": "Azithromycin", "generic": "Azithromycin", "brand": "Azithro", "manufacturer": "BioLab", "form": "Tablet", "strength": "500mg" },
+  { "name": "Amoxicillin", "generic": "Amoxicillin", "brand": "Amoxil", "manufacturer": "PharmaCorp", "form": "Capsule", "strength": "500mg" },
+  { "name": "Omeprazole", "generic": "Omeprazole", "brand": "Losec", "manufacturer": "Roche", "form": "Capsule", "strength": "20mg" },
+  { "name": "Cetirizine", "generic": "Cetirizine", "brand": "Zyrtec", "manufacturer": "UCB", "form": "Tablet", "strength": "10mg" }
+]

@@ -6,6 +6,7 @@ import AddPrescription from './pages/AddPrescription'
 import PharmacyVerification from './pages/PharmacyVerification'
 import PatientDashboard from './pages/PatientDashboard'
 import DoctorManagement from './pages/DoctorManagement'
+import PrescriptionBuilder from './pages/PrescriptionBuilder'
 
 function App() {
   const [account, setAccount] = useState(null)
@@ -27,6 +28,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard account={account} setAccount={setAccount} />} />
             <Route path="/add-prescription" element={<AddPrescription account={account} />} />
+            <Route path="/prescription-builder" element={<PrescriptionBuilder account={account} />} />
             <Route path="/pharmacy" element={<PharmacyVerification account={account} />} />
             <Route path="/patient" element={<PatientDashboard />} />
             <Route path="/doctor" element={<DoctorManagement account={account} />} />
